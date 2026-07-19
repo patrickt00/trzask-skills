@@ -2,6 +2,8 @@
 
 A collection of [Claude skills](https://docs.claude.com/en/docs/claude-code/skills).
 
+Licensed under the [MIT License](LICENSE).
+
 ## Skills
 
 ### [outfit-to-website](outfit-to-website/)
