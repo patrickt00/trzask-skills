@@ -1,0 +1,7 @@
+# Eval / validation workspace (kept local — contains large artifacts and third-party stock photos)
+outfit-to-website-workspace/
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+*.swp

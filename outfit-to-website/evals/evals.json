@@ -1,0 +1,72 @@
+{
+  "skill_name": "outfit-to-website",
+  "evals": [
+    {
+      "id": 0,
+      "name": "business-outfit-portfolio",
+      "prompt": "Here's a photo of my outfit (outfit.jpg in this folder). I want you to turn it into a website design for my personal portfolio — I'm a freelance consultant. Give me the design system and a demo page.",
+      "expected_output": "design-tokens.md with a palette traced to the garments plus a self-contained index.html (Tailwind CDN) whose colors, typography and layout match the formal/business character of the outfit.",
+      "files": [
+        "outfit.jpg  (navy suit, white shirt, cognac shoes/belt, red pocket square)"
+      ],
+      "assertions": [
+        "[process] design-tokens.md exists and contains a palette of at least 4 distinct hex colors",
+        "[process] every palette color in design-tokens.md is attributed to a specific garment or photo element",
+        "[process] index.html exists, loads Tailwind via CDN, and defines the palette colors in an inline tailwind.config",
+        "[process] design-tokens.md documents WCAG contrast checks for the text/background pairs used on the page",
+        "[process] every contrast ratio documented in design-tokens.md is numerically correct within ±0.3 when recomputed from the stated hex pair",
+        "[quality] index.html loads exactly two Google Font families and both are visibly applied (headings vs body)",
+        "[quality] the page has at least 5 distinct sections including a nav, a hero, and a footer",
+        "[quality] the dominant page color is in the navy/dark-blue family and an accent in the cognac/brown or red family appears on CTAs or links",
+        "[quality] typography and tone are formal/professional matching the tailored suit",
+        "[quality] the page copy is real portfolio copy for a freelance consultant, with no lorem ipsum"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "streetwear-vibe-landing",
+      "prompt": "zobacz zdjecie outfit.jpg - chce strone www w klimacie tej stylizacji, cos dla marki streetwearowej. zrob mi z tego design",
+      "expected_output": "design-tokens.md + index.html with bold display typography, high contrast, asymmetric/overlapping layout matching a streetwear look; copy for a streetwear brand. Should handle a Polish casual prompt.",
+      "files": [
+        "outfit.jpg  (red/black plaid flannel, white hoodie, grey ripped jeans, red/white Jordans, round red sunglasses)"
+      ],
+      "assertions": [
+        "[process] design-tokens.md exists and contains a palette of at least 4 distinct hex colors",
+        "[process] every palette color in design-tokens.md is attributed to a specific garment or photo element",
+        "[process] index.html exists, loads Tailwind via CDN, and defines the palette colors in an inline tailwind.config",
+        "[process] design-tokens.md documents WCAG contrast checks for the text/background pairs used on the page",
+        "[process] every contrast ratio documented in design-tokens.md is numerically correct within ±0.3 when recomputed from the stated hex pair",
+        "[quality] index.html loads exactly two Google Font families and both are visibly applied (headings vs body)",
+        "[quality] the page has at least 5 distinct sections including a nav, a hero, and a footer",
+        "[quality] a strong red accent from the flannel/sneakers is used prominently, with black/white/grey supporting colors",
+        "[quality] typography is bold display-style and the layout has streetwear energy",
+        "[quality] at least one plaid/check or grid-derived decorative motif from the flannel appears on the page",
+        "[quality] the page copy is for a streetwear brand with no lorem ipsum",
+        "[quality] the primary red accent token stays vivid (approx #D0..-#E0.. red range, not darkened below ~#C8 for AA margin); any darkened variant is a separate token limited to small-text roles"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "boho-casual-no-brand-given",
+      "prompt": "I attached outfit.jpg — a photo of an outfit I like. Can you convert this look into a landing page design? You pick what the page should be for.",
+      "expected_output": "design-tokens.md + index.html; the agent invents a brand fitting the outfit's vibe and says so; palette/typography/layout follow the mapping rules for the boho outfit.",
+      "files": [
+        "outfit.jpg  (cream crochet top, pink underlayer, brass/bead boho necklace)"
+      ],
+      "assertions": [
+        "[process] design-tokens.md exists and contains a palette of at least 4 distinct hex colors",
+        "[process] every palette color in design-tokens.md is attributed to a specific garment or photo element",
+        "[process] index.html exists, loads Tailwind via CDN, and defines the palette colors in an inline tailwind.config",
+        "[process] design-tokens.md documents WCAG contrast checks for the text/background pairs used on the page",
+        "[process] every contrast ratio documented in design-tokens.md is numerically correct within ±0.3 when recomputed from the stated hex pair",
+        "[quality] index.html loads exactly two Google Font families and both are visibly applied (headings vs body)",
+        "[quality] the page has at least 5 distinct sections including a nav, a hero, and a footer",
+        "[quality] the output explicitly names an invented brand/purpose fitting a boho/romantic aesthetic",
+        "[quality] the palette is warm and soft (cream dominant, pink and gold/brass accents), not a generic tech palette",
+        "[quality] typography is soft-serif or romantic in character",
+        "[quality] at least one organic or crochet-derived texture/motif appears on the page",
+        "[quality] the page copy is real copy for the invented brand with no lorem ipsum"
+      ]
+    }
+  ]
+}
