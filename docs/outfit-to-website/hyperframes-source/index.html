@@ -256,86 +256,159 @@
         margin-right: 8px;
       }
 
-      /* ============ STREETWEAR case ============ */
+      /* ============ STREETWEAR case — iteration-3 KRATA drop landing ============ */
       #case-street .site {
         background: #F4F1EC;
         color: #141414;
         font-family: "Helvetica Neue", "Arial Black", sans-serif;
+        position: relative;
       }
-      #case-street .site .plaid-strip {
-        height: 22px;
+      #case-street .site .buffalo-faint {
+        position: absolute; inset: 0;
         background:
-          repeating-linear-gradient(0deg, #D9232E 0 12px, transparent 12px 24px),
-          repeating-linear-gradient(90deg, #D9232E 0 12px, transparent 12px 24px),
-          #141414;
-        background-blend-mode: multiply, multiply, normal;
+          repeating-linear-gradient(0deg, rgba(217,35,46,0.10) 0 10px, transparent 10px 20px),
+          repeating-linear-gradient(90deg, rgba(217,35,46,0.10) 0 10px, transparent 10px 20px);
+        pointer-events: none;
       }
+      #case-street .site > * { position: relative; z-index: 1; }
       #case-street .site .sn {
         display: flex; align-items: center; justify-content: space-between;
-        padding: 20px 32px;
+        padding: 18px 26px;
         border-bottom: 3px solid #141414;
+        background: #F4F1EC;
+        gap: 16px;
       }
-      #case-street .site .brand { font-weight: 900; font-size: 26px; letter-spacing: 0.02em; }
-      #case-street .site .brand-dot {
-        display: inline-block; width: 10px; height: 10px;
-        background: #D9232E; vertical-align: 4px; margin-left: 3px;
-      }
+      #case-street .site .brand { font-weight: 900; font-size: 28px; letter-spacing: 0.02em; }
+      #case-street .site .brand-dot { color: #D9232E; font-weight: 900; }
       #case-street .site .nav-links {
         display: flex; gap: 22px;
-        font-weight: 900;
-        font-size: 15px;
-        letter-spacing: 0.06em;
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
       }
-      #case-street .site .hero { padding: 42px 32px 34px; position: relative; }
-      #case-street .site .hero h2 {
+      #case-street .site .nav-cta {
+        background: #D9232E; color: #FFFFFF;
+        padding: 10px 18px;
         font-weight: 900;
-        font-size: 72px;
-        line-height: 0.9;
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      #case-street .site .hero { padding: 34px 30px 28px; position: relative; min-height: 340px; }
+      #case-street .site .pill {
+        display: inline-block;
+        border: 2px solid #141414;
+        border-radius: 999px;
+        padding: 7px 16px;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        background: #F4F1EC;
+      }
+      #case-street .site .hero h2 {
+        font-family: "Helvetica Neue", "Arial Black", sans-serif;
+        font-weight: 900;
+        font-size: 88px;
+        line-height: 0.88;
         letter-spacing: -0.02em;
         text-transform: uppercase;
-        margin: 0 0 14px;
+        margin: 14px 0 0;
+        max-width: 66%;
       }
+      #case-street .site .hero h2 .lc { text-transform: lowercase; font-style: italic; font-weight: 900; }
       #case-street .site .hero h2 .r { color: #D9232E; }
-      #case-street .site .hero h2 .out {
-        color: #141414;
-      }
       #case-street .site .hero p {
         font-family: "Segoe UI", Roboto, sans-serif;
-        font-size: 18px;
+        font-size: 15px;
         color: #3A3532;
-        line-height: 1.4;
-        margin: 20px 0 26px;
-        max-width: 32ch;
+        line-height: 1.5;
+        margin: 16px 0 18px;
+        max-width: 56%;
+      }
+      #case-street .site .ctas {
+        display: flex; align-items: center; gap: 26px;
+        margin-top: 4px;
       }
       #case-street .site .cta {
         display: inline-block;
-        padding: 14px 30px;
-        background: #D9232E;
-        color: #FFFFFF;
-        border: 3px solid #141414;
+        padding: 14px 26px;
+        background: #D9232E; color: #FFFFFF;
         font-weight: 900;
-        font-size: 17px;
+        font-size: 15px;
         letter-spacing: 0.09em;
         text-transform: uppercase;
         box-shadow: 6px 6px 0 0 #141414;
         border-radius: 0;
       }
-      #case-street .site .rule {
-        border-top: 3px dashed #141414;
-        padding: 16px 32px;
-        display: flex; justify-content: space-between; align-items: center;
+      #case-street .site .lookbook {
+        color: #C1121F;
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        text-underline-offset: 5px;
         font-weight: 900;
-        font-size: 15px;
-        letter-spacing: 0.1em;
+        font-size: 14px;
+        letter-spacing: 0.09em;
         text-transform: uppercase;
+      }
+      #case-street .site .side-plaid {
+        position: absolute;
+        right: 24px; top: 78px;
+        width: 160px; height: 190px;
+        background:
+          repeating-linear-gradient(0deg, #141414 0 12px, transparent 12px 24px),
+          repeating-linear-gradient(90deg, #141414 0 12px, transparent 12px 24px),
+          #D9232E;
+        transform: rotate(3deg);
+        box-shadow: 6px 6px 0 #141414;
+      }
+      #case-street .site .side-card {
+        position: absolute;
+        right: 54px; top: 110px;
+        width: 150px;
+        background: #D9D9D6;
+        border: 2px solid #141414;
+        padding: 14px 16px;
+        transform: rotate(-2deg);
+      }
+      #case-street .site .side-card .num {
+        font-family: "Helvetica Neue", "Arial Black", sans-serif;
+        font-weight: 900;
+        font-size: 52px;
+        line-height: 0.9;
+      }
+      #case-street .site .side-card .eb {
+        margin-top: 6px;
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: #6E625E;
+      }
+      #case-street .site .side-card .body {
+        margin-top: 12px;
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 12px;
+        line-height: 1.3;
+        font-weight: 600;
         color: #141414;
       }
-      #case-street .site .rule .stamp {
-        background: #141414;
-        color: #F4F1EC;
-        padding: 3px 10px;
+      #case-street .site .marquee {
+        background: #141414; color: #F4F1EC;
+        padding: 10px 0;
+        border-top: 3px solid #141414;
+        font-family: "Helvetica Neue", "Arial Black", sans-serif;
+        font-weight: 900;
+        font-size: 16px;
+        letter-spacing: 0.10em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+        text-align: center;
       }
+      #case-street .site .marquee .star { color: #D9232E; margin: 0 16px; }
+      #case-street .site .marquee .item { margin: 0 16px; }
 
       /* ============ BOHO case ============ */
       #case-boho .site {
@@ -496,18 +569,29 @@
             <div class="spacer"></div>
           </div>
           <div class="site">
-            <div class="plaid-strip"></div>
+            <div class="buffalo-faint"></div>
             <div class="sn">
-              <div class="brand">KRATA<span class="brand-dot"></span></div>
-              <nav class="nav-links"><span>DROPY</span><span>MANIFEST</span><span>KOSZYK</span></nav>
+              <div class="brand">KRATA<span class="brand-dot">.</span></div>
+              <nav class="nav-links"><span>DROP 07</span><span>MANIFEST</span><span>LOOKBOOK</span></nav>
+              <span class="nav-cta">KUP DROP</span>
             </div>
             <div class="hero">
-              <h2><span class="r">DROP 07</span> <span class="out">BUFFALO</span></h2>
-              <p>Limitowana kolekcja, szyte w &#321;odzi. Zapisz si&#281; na drop &mdash; start 27.11 o 20:00.</p>
-              <span class="cta">Do&#322;&#261;cz do listy</span>
+              <span class="pill">DROP 07 &middot; 24.07 &middot; 12:00</span>
+              <h2>ULICA<br><span class="lc">w </span><span class="r">KRACIE</span>.</h2>
+              <p>Flanela buffalo, hoodie w ko&#347;ci s&#322;oniowej, sprany denim. Limitowany drop &mdash; 300 sztuk, zero restocku.</p>
+              <div class="ctas">
+                <span class="cta">Wchodz&#281;</span>
+                <span class="lookbook">Zobacz lookbook</span>
+              </div>
+              <div class="side-plaid"></div>
+              <div class="side-card">
+                <div class="num">07</div>
+                <div class="eb">Buffalo Edition</div>
+                <div class="body">Krata to nie wz&oacute;r.<br>Krata to postawa.</div>
+              </div>
             </div>
-            <div class="rule">
-              <span>SZYTE W &#321;ODZI</span><span class="stamp">EDYCJA 200 SZT.</span>
+            <div class="marquee">
+              <span class="item">Zero restocku</span><span class="star">&#9733;</span><span class="item">300 sztuk</span><span class="star">&#9733;</span><span class="item">Szyte w PL</span><span class="star">&#9733;</span><span class="item">Drop 07 &mdash; Buffalo</span>
             </div>
           </div>
         </div>
