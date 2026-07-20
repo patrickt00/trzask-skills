@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0E1116;
+        font-family: "Segoe UI", Roboto, sans-serif;
+        color: #E6EAF0;
+      }
+      .serif {
+        font-family: "Palatino Linotype", Palatino, Georgia, serif;
+        font-feature-settings: "kern","liga","onum";
+      }
+      .mono {
+        font-family: "SF Mono", Consolas, monospace;
+      }
+
+      /* Full-bleed background so producer frame compositing never renders black */
+      #bg {
+        position: absolute;
+        inset: 0;
+        background: #0E1116;
+        z-index: 0;
+      }
+
+      #masthead {
+        position: absolute;
+        top: 60px; left: 100px; right: 100px;
+        display: flex; justify-content: space-between; align-items: baseline;
+        z-index: 10;
+      }
+      #masthead .eyebrow {
+        font-family: "SF Mono", Consolas, monospace;
+        font-size: 18px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #8A93A1;
+      }
+      #masthead .repo {
+        font-family: "SF Mono", Consolas, monospace;
+        font-size: 16px;
+        letter-spacing: 0.08em;
+        color: #8A93A1;
+      }
+
+      /* Case grid — 3 cols */
+      .case {
+        position: absolute;
+        inset: 0;
+        padding: 160px 100px 100px;
+        display: grid;
+        grid-template-columns: 460px 1fr 900px;
+        column-gap: 60px;
+        align-items: center;
+      }
+
+      .photo {
+        aspect-ratio: 3 / 4;
+        width: 460px;
+        height: 613px;
+        overflow: hidden;
+        border-radius: 3px;
+        background: #0A0A0A;
+        box-shadow: 0 40px 80px -30px rgba(0,0,0,0.6);
+      }
+      .photo img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+
+      .meta {
+        display: flex; flex-direction: column;
+        gap: 34px;
+      }
+      .meta .label {
+        font-size: 34px;
+        line-height: 1.15;
+        letter-spacing: -0.005em;
+        color: #E6EAF0;
+      }
+      .meta .label em {
+        font-style: italic;
+        color: #8A93A1;
+        font-weight: 400;
+      }
+      .row-label {
+        font-family: "SF Mono", Consolas, monospace;
+        font-size: 13px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #8A93A1;
+        margin-bottom: 14px;
+      }
+      .palette {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 22px;
+        column-gap: 20px;
+      }
+      .sw {
+        display: flex; flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .sw .chip {
+        width: 56px; height: 56px;
+        border-radius: 4px;
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+      .sw .hex {
+        font-family: "SF Mono", Consolas, monospace;
+        font-size: 15px;
+        color: #B7BDC8;
+        letter-spacing: -0.01em;
+      }
+      .sw .from {
+        font-size: 13px;
+        color: #8A93A1;
+        line-height: 1.2;
+      }
+      .fonts {
+        font-size: 22px;
+        color: #B7BDC8;
+      }
+      .fonts .sep {
+        color: #8A93A1;
+        padding: 0 0.5em;
+        font-style: italic;
+      }
+
+      /* Browser mock */
+      .browser {
+        width: 900px;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #161A21;
+        border: 1px solid #2E333C;
+        box-shadow:
+          0 60px 120px -40px rgba(0,0,0,0.6),
+          0 20px 40px -20px rgba(0,0,0,0.4);
+      }
+      .chrome {
+        display: flex; align-items: center;
+        gap: 18px;
+        padding: 16px 22px;
+        background: #22262E;
+        border-bottom: 1px solid #2E333C;
+      }
+      .dots { display: flex; gap: 8px; flex: 0 0 auto; }
+      .dot { width: 14px; height: 14px; border-radius: 50%; }
+      .dot.r { background: #ff5f57; }
+      .dot.y { background: #febc2e; }
+      .dot.g { background: #28c840; }
+      .url {
+        flex: 1;
+        background: #0E1116;
+        border: 1px solid #2E333C;
+        border-radius: 7px;
+        padding: 5px 14px;
+        font-family: "SF Mono", Consolas, monospace;
+        font-size: 15px;
+        color: #8A93A1;
+        text-align: center;
+        letter-spacing: -0.01em;
+      }
+      .chrome .spacer { width: 60px; flex: 0 0 auto; }
+
+      .site {
+        min-height: 500px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* ============ NAVY case ============ */
+      #case-navy .site {
+        background: #1D2844;
+        color: #F7F5EF;
+        font-family: "Palatino Linotype", Palatino, Georgia, serif;
+      }
+      #case-navy .site .sn {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 22px 32px;
+        border-bottom: 1px solid rgba(247,245,239,0.1);
+      }
+      #case-navy .site .brand { font-size: 22px; letter-spacing: 0.02em; }
+      #case-navy .site .brand::before {
+        content: "";
+        display: inline-block;
+        width: 12px; height: 12px;
+        background: #A22C3B;
+        transform: rotate(45deg);
+        margin-right: 14px;
+        vertical-align: 3px;
+      }
+      #case-navy .site .nav-links {
+        display: flex; gap: 26px;
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 15px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(247,245,239,0.75);
+      }
+      #case-navy .site .hero { padding: 52px 32px 44px; }
+      #case-navy .site .hero h2 {
+        font-weight: 400;
+        font-size: 44px;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        margin: 0 0 22px;
+      }
+      #case-navy .site .hero h2 em {
+        font-style: italic;
+        color: #B0BBD4;
+      }
+      #case-navy .site .hero p {
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 18px;
+        color: rgba(247,245,239,0.72);
+        line-height: 1.5;
+        margin: 0 0 32px;
+        max-width: 34ch;
+      }
+      #case-navy .site .cta {
+        display: inline-block;
+        padding: 14px 30px;
+        background: #96491F;
+        color: #F7F5EF;
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 17px;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        border-radius: 3px;
+      }
+      #case-navy .site .rule {
+        border-top: 1px solid rgba(247,245,239,0.1);
+        padding: 22px 32px;
+        display: flex; gap: 28px;
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 15px;
+        color: rgba(247,245,239,0.6);
+        letter-spacing: 0.06em;
+      }
+      #case-navy .site .rule span::before {
+        content: "\2014";
+        color: #96491F;
+        margin-right: 8px;
+      }
+
+      /* ============ STREETWEAR case ============ */
+      #case-street .site {
+        background: #F4F1EC;
+        color: #141414;
+        font-family: "Helvetica Neue", "Arial Black", sans-serif;
+      }
+      #case-street .site .plaid-strip {
+        height: 22px;
+        background:
+          repeating-linear-gradient(0deg, #D9232E 0 12px, transparent 12px 24px),
+          repeating-linear-gradient(90deg, #D9232E 0 12px, transparent 12px 24px),
+          #141414;
+        background-blend-mode: multiply, multiply, normal;
+      }
+      #case-street .site .sn {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 20px 32px;
+        border-bottom: 3px solid #141414;
+      }
+      #case-street .site .brand { font-weight: 900; font-size: 26px; letter-spacing: 0.02em; }
+      #case-street .site .brand-dot {
+        display: inline-block; width: 10px; height: 10px;
+        background: #D9232E; vertical-align: 4px; margin-left: 3px;
+      }
+      #case-street .site .nav-links {
+        display: flex; gap: 22px;
+        font-weight: 900;
+        font-size: 15px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      #case-street .site .hero { padding: 42px 32px 34px; position: relative; }
+      #case-street .site .hero h2 {
+        font-weight: 900;
+        font-size: 72px;
+        line-height: 0.9;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        margin: 0 0 14px;
+      }
+      #case-street .site .hero h2 .r { color: #D9232E; }
+      #case-street .site .hero h2 .out {
+        color: #141414;
+      }
+      #case-street .site .hero p {
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 18px;
+        color: #3A3532;
+        line-height: 1.4;
+        margin: 20px 0 26px;
+        max-width: 32ch;
+      }
+      #case-street .site .cta {
+        display: inline-block;
+        padding: 14px 30px;
+        background: #D9232E;
+        color: #FFFFFF;
+        border: 3px solid #141414;
+        font-weight: 900;
+        font-size: 17px;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        box-shadow: 6px 6px 0 0 #141414;
+        border-radius: 0;
+      }
+      #case-street .site .rule {
+        border-top: 3px dashed #141414;
+        padding: 16px 32px;
+        display: flex; justify-content: space-between; align-items: center;
+        font-weight: 900;
+        font-size: 15px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #141414;
+      }
+      #case-street .site .rule .stamp {
+        background: #141414;
+        color: #F4F1EC;
+        padding: 3px 10px;
+      }
+
+      /* ============ BOHO case ============ */
+      #case-boho .site {
+        background: #F7F0E3;
+        color: #33392F;
+        font-family: "Palatino Linotype", Palatino, Georgia, serif;
+        position: relative;
+      }
+      #case-boho .site .lattice {
+        position: absolute; inset: 0;
+        background-image:
+          linear-gradient(45deg, rgba(51,57,47,0.06) 25%, transparent 25%),
+          linear-gradient(-45deg, rgba(51,57,47,0.06) 25%, transparent 25%);
+        background-size: 16px 16px;
+        background-position: 0 0, 8px 8px;
+        opacity: 0.55;
+        pointer-events: none;
+        mask-image: linear-gradient(180deg, transparent 55%, black 100%);
+        -webkit-mask-image: linear-gradient(180deg, transparent 55%, black 100%);
+      }
+      #case-boho .site > * { position: relative; z-index: 1; }
+      #case-boho .site .sn {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 22px 34px;
+        border-bottom: 1px solid rgba(51,57,47,0.14);
+      }
+      #case-boho .site .brand { font-style: italic; font-size: 26px; letter-spacing: -0.005em; }
+      #case-boho .site .brand::after { content: "\00B7"; color: #B02D63; padding: 0 6px; }
+      #case-boho .site .nav-links {
+        display: flex; gap: 22px;
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 15px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #7A5C33;
+      }
+      #case-boho .site .hero { padding: 46px 34px 40px; }
+      #case-boho .site .hero .eb {
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 13px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #7A5C33;
+        margin-bottom: 16px;
+      }
+      #case-boho .site .hero h2 {
+        font-weight: 400;
+        font-size: 48px;
+        line-height: 1.05;
+        letter-spacing: -0.005em;
+        margin: 0 0 18px;
+      }
+      #case-boho .site .hero h2 em { font-style: italic; color: #B02D63; }
+      #case-boho .site .hero p {
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 18px;
+        color: #5A5F55;
+        line-height: 1.55;
+        margin: 0 0 32px;
+        max-width: 34ch;
+      }
+      #case-boho .site .cta {
+        display: inline-block;
+        padding: 15px 32px;
+        background: #B02D63;
+        color: #F7F0E3;
+        font-family: "Segoe UI", Roboto, sans-serif;
+        font-size: 17px;
+        letter-spacing: 0.05em;
+        border-radius: 999px;
+      }
+      #case-boho .site .rule {
+        padding: 22px 34px 26px;
+        display: flex; align-items: center; gap: 18px;
+        font-style: italic;
+        font-size: 17px;
+        color: #7A5C33;
+      }
+      #case-boho .site .rule .beads { display: flex; align-items: center; gap: 8px; }
+      #case-boho .site .rule .bead { width: 8px; height: 8px; border-radius: 50%; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="15"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="bg"></div>
+
+      <div id="masthead">
+        <div class="eyebrow">field notes &middot; outfit-to-website</div>
+        <div class="repo">github.com/patrickt00/trzask-skills</div>
+      </div>
+
+      <!-- ============ CASE 1 - NAVY (0-5s) ============ -->
+      <div id="case-navy" class="clip case" data-start="0" data-duration="5" data-track-index="1">
+        <div class="photo"><img src="assets/business.jpg" alt=""></div>
+        <div class="meta">
+          <div class="label serif"><em>01 &middot;</em> Tailored navy, modern business.</div>
+          <div>
+            <div class="row-label">Palette, traced to the garments</div>
+            <div class="palette">
+              <div class="sw"><span class="chip" style="background:#1D2844"></span><span class="hex">#1D2844</span><span class="from">wool suit</span></div>
+              <div class="sw"><span class="chip" style="background:#F7F5EF"></span><span class="hex">#F7F5EF</span><span class="from">dress shirt</span></div>
+              <div class="sw"><span class="chip" style="background:#96491F"></span><span class="hex">#96491F</span><span class="from">cognac leather</span></div>
+              <div class="sw"><span class="chip" style="background:#A22C3B"></span><span class="hex">#A22C3B</span><span class="from">pocket square</span></div>
+            </div>
+          </div>
+          <div class="fonts serif">Playfair Display <span class="sep">over</span> Inter</div>
+        </div>
+        <div class="browser">
+          <div class="chrome">
+            <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+            <div class="url">kowalski.consulting</div>
+            <div class="spacer"></div>
+          </div>
+          <div class="site">
+            <div class="sn">
+              <div class="brand serif">Kowalski &amp; Trzaska</div>
+              <nav class="nav-links"><span>Work</span><span>About</span><span>Contact</span></nav>
+            </div>
+            <div class="hero">
+              <h2>Independent strategy for teams building <em>the next thing.</em></h2>
+              <p>Fifteen years advising founders across finance, ops, and go-to-market. Selective engagements.</p>
+              <span class="cta">Book a call</span>
+            </div>
+            <div class="rule"><span>Cases</span><span>Notes</span><span>Availability</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ CASE 2 - STREETWEAR (5-10s) ============ -->
+      <div id="case-street" class="clip case" data-start="5" data-duration="5" data-track-index="1">
+        <div class="photo"><img src="assets/streetwear.jpg" alt=""></div>
+        <div class="meta">
+          <div class="label serif"><em>02 &middot;</em> Buffalo check, Chicago red.</div>
+          <div>
+            <div class="row-label">Palette, traced to the garments</div>
+            <div class="palette">
+              <div class="sw"><span class="chip" style="background:#141414"></span><span class="hex">#141414</span><span class="from">plaid black</span></div>
+              <div class="sw"><span class="chip" style="background:#D9232E"></span><span class="hex">#D9232E</span><span class="from">flannel red</span></div>
+              <div class="sw"><span class="chip" style="background:#F4F1EC"></span><span class="hex">#F4F1EC</span><span class="from">cream hoodie</span></div>
+              <div class="sw"><span class="chip" style="background:#D9D9D6"></span><span class="hex">#D9D9D6</span><span class="from">washed denim</span></div>
+              <div class="sw"><span class="chip" style="background:#6E625E"></span><span class="hex">#6E625E</span><span class="from">concrete step</span></div>
+            </div>
+          </div>
+          <div class="fonts serif">Archivo Black <span class="sep">over</span> Space Grotesk</div>
+        </div>
+        <div class="browser">
+          <div class="chrome">
+            <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+            <div class="url">krata.pl / drop-07</div>
+            <div class="spacer"></div>
+          </div>
+          <div class="site">
+            <div class="plaid-strip"></div>
+            <div class="sn">
+              <div class="brand">KRATA<span class="brand-dot"></span></div>
+              <nav class="nav-links"><span>DROPY</span><span>MANIFEST</span><span>KOSZYK</span></nav>
+            </div>
+            <div class="hero">
+              <h2><span class="r">DROP 07</span> <span class="out">BUFFALO</span></h2>
+              <p>Limitowana kolekcja, szyte w &#321;odzi. Zapisz si&#281; na drop &mdash; start 27.11 o 20:00.</p>
+              <span class="cta">Do&#322;&#261;cz do listy</span>
+            </div>
+            <div class="rule">
+              <span>SZYTE W &#321;ODZI</span><span class="stamp">EDYCJA 200 SZT.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ CASE 3 - BOHO (10-15s) ============ -->
+      <div id="case-boho" class="clip case" data-start="10" data-duration="5" data-track-index="1">
+        <div class="photo"><img src="assets/boho.jpg" alt=""></div>
+        <div class="meta">
+          <div class="label serif"><em>03 &middot;</em> Crochet lace, slow craft.</div>
+          <div>
+            <div class="row-label">Palette, traced to the garments</div>
+            <div class="palette">
+              <div class="sw"><span class="chip" style="background:#F7F0E3"></span><span class="hex">#F7F0E3</span><span class="from">crochet top</span></div>
+              <div class="sw"><span class="chip" style="background:#B02D63"></span><span class="hex">#B02D63</span><span class="from">pink camisole</span></div>
+              <div class="sw"><span class="chip" style="background:#7A5C33"></span><span class="hex">#7A5C33</span><span class="from">brass chain</span></div>
+              <div class="sw"><span class="chip" style="background:#33392F"></span><span class="hex">#33392F</span><span class="from">foliage back</span></div>
+              <div class="sw"><span class="chip" style="background:#EFD9E0"></span><span class="hex">#EFD9E0</span><span class="from">pink under lace</span></div>
+            </div>
+          </div>
+          <div class="fonts serif">Fraunces <span class="sep">over</span> Lora</div>
+        </div>
+        <div class="browser">
+          <div class="chrome">
+            <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+            <div class="url">solandthread.co</div>
+            <div class="spacer"></div>
+          </div>
+          <div class="site">
+            <div class="lattice"></div>
+            <div class="sn">
+              <div class="brand serif">Sol &amp; Thread</div>
+              <nav class="nav-links"><span>Shop</span><span>Atelier</span><span>Journal</span></nav>
+            </div>
+            <div class="hero">
+              <div class="eb">&mdash; New collection &middot; Late summer</div>
+              <h2>Slow-made pieces, worn <em>close.</em></h2>
+              <p>Hand-crocheted lace and lost-wax brass, one atelier in the mountains, no two exactly alike.</p>
+              <span class="cta">See the collection</span>
+            </div>
+            <div class="rule">
+              <div class="beads">
+                <span class="bead" style="background:#B02D63"></span>
+                <span class="bead" style="background:#7A5C33"></span>
+                <span class="bead" style="background:#33392F"></span>
+                <span class="bead" style="background:#B02D63"></span>
+              </div>
+              <span>Summer 2026, in dispatch</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // Persistent masthead: gentle in, gentle out
+      tl.from("#masthead", { autoAlpha: 0, y: -10, duration: 0.7, ease: "power2.out" }, 0.2);
+      tl.to("#masthead", { autoAlpha: 0, duration: 0.4, ease: "power1.in" }, 14.6);
+
+      // Choreograph one case's elements, times are absolute on the main timeline
+      function choreograph(caseSel, t0) {
+        tl.from(caseSel + " .photo", {
+          autoAlpha: 0, x: -80, duration: 0.75, ease: "power2.out"
+        }, t0 + 0.10);
+
+        tl.from(caseSel + " .meta .label", {
+          autoAlpha: 0, y: 14, duration: 0.5, ease: "power2.out"
+        }, t0 + 0.35);
+
+        tl.from(caseSel + " .meta .row-label", {
+          autoAlpha: 0, y: 8, duration: 0.4
+        }, t0 + 0.55);
+
+        tl.from(caseSel + " .meta .sw", {
+          autoAlpha: 0, y: 16, scale: 0.75,
+          duration: 0.4, ease: "back.out(1.6)",
+          stagger: 0.10
+        }, t0 + 0.70);
+
+        tl.from(caseSel + " .meta .fonts", {
+          autoAlpha: 0, y: 8, duration: 0.4
+        }, t0 + 1.45);
+
+        tl.from(caseSel + " .browser", {
+          autoAlpha: 0, x: 90, duration: 0.9, ease: "power2.out"
+        }, t0 + 1.10);
+
+        // Gentle exit — everything fades before the hard clip cut
+        tl.to(caseSel + " .photo, " + caseSel + " .meta, " + caseSel + " .browser", {
+          autoAlpha: 0, duration: 0.4, ease: "power1.in"
+        }, t0 + 4.55);
+      }
+
+      choreograph("#case-navy", 0);
+      choreograph("#case-street", 5);
+      choreograph("#case-boho", 10);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

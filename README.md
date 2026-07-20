@@ -36,6 +36,13 @@ Or copy the source folder into your local skills directory:
 
 Three real runs are shown above — the source outfit on the left, the palette (every hex traced to a specific garment) and font pairing in the middle, the resulting demo page in the browser frame on the right. See individual crops: [navy](docs/outfit-to-website/screenshots/case-navy.png) · [streetwear](docs/outfit-to-website/screenshots/case-streetwear.png) · [boho](docs/outfit-to-website/screenshots/case-boho.png).
 
+Or [watch the 15-second walkthrough](docs/outfit-to-website/preview.mp4) — the three transformations animated in sequence, rendered from HTML with [HyperFrames](https://github.com/heygen-com/hyperframes). Composition source and reproduction steps: [`docs/outfit-to-website/hyperframes-source/`](docs/outfit-to-website/hyperframes-source/).
+
+<video src="https://github.com/patrickt00/trzask-skills/raw/main/docs/outfit-to-website/preview.mp4" controls muted playsinline width="880" poster="docs/outfit-to-website/screenshots/preview-dark.png">
+  Your browser can't play the inline video —
+  <a href="docs/outfit-to-website/preview.mp4">download preview.mp4</a> instead.
+</video>
+
 #### Try it
 
 Attach a photo of an outfit and ask, in any language:
