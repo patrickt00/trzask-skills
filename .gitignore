@@ -1,5 +1,8 @@
-# Eval / validation workspace (kept local — contains large artifacts and third-party stock photos)
-outfit-to-website-workspace/
+# Eval / validation workspaces (kept local — contain large artifacts and third-party stock photos)
+*-workspace/
+
+# Node modules from any local hyperframes / video-render scaffolding
+node_modules/
 
 # OS / editor cruft
 Thumbs.db
